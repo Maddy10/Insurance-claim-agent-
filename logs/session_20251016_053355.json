@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-10-16T05:34:16.518148",
+  "messages": [
+    {
+      "role": "user",
+      "content": "hi"
+    },
+    {
+      "role": "assistant",
+      "content": "Hello! How can I assist you today?"
+    },
+    {
+      "role": "user",
+      "content": "what are the documents needed for claiming the insurance "
+    },
+    {
+      "role": "assistant",
+      "content": "To claim insurance, you generally need your policy number, proof of loss or damage, identification, and a completed claim form. Depending on the type of claim, you might also need supporting documents like invoices, repair estimates, or police reports. For life insurance claims, a death certificate and proof of beneficiary identity are required."
+    }
+  ]
+}
