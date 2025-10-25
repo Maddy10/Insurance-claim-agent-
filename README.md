@@ -99,15 +99,12 @@ Navigate to the project folder:
 
 bash
 
-Copy code
 
 cd insurance-support-assistant
 
 Create a virtual environment:
 
 bash
-
-Copy code
 
 python -m venv venv
 
@@ -119,15 +116,11 @@ Install dependencies:
 
 bash
 
-Copy code
-
 pip install -r requirements.txt
 
 Configure environment variables in .env:
 
 ini
-
-Copy code
 
 GOOGLE_API_KEY=your_google_api_key_here
 
@@ -141,15 +134,12 @@ Run the assistant in command-line mode:
 
 bash
 
-Copy code
-
 python main.py
 
 Example interaction:
 
 vbnet
 
-Copy code
 
 🤖 Insurance Claim Support Assistant
 
@@ -162,8 +152,6 @@ Web Mode
 Run the assistant as a Streamlit web application:
 
 bash
-
-Copy code
 
 streamlit run app.py
 
@@ -179,11 +167,7 @@ Reload previous sessions via sidebar
 
 Handles structured JSON outputs seamlessly
 
-System Prompt
-
-text
-
-Copy code
+System Prompt:
 
 You are a professional, empathetic, and knowledgeable Insurance Support Assistant.
 
@@ -292,3 +276,7 @@ Contributing
 Pull requests and contributions are welcome.
 
 Please ensure proper formatting and testing before submitting PRs. Open issues for bug reports or enhancement suggestions.
+
+```
+Syed Mujtaba Hussain 
+mujtabahussain9796@gmail.com
