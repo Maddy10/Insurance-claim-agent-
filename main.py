@@ -1,24 +1,28 @@
-# main.py
 import os
 from dotenv import load_dotenv
+
+from langchain.chains import LLMChain
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
-from langchain.agents import create_tool_calling_agent, AgentExecutor
 from langchain_core.messages import HumanMessage, AIMessage
+
 from tools import tools, tool_map
 from schema import SupportOutput
 
 load_dotenv()
 
 # --- Load LLM ---
-llm = ChatGoogleGenerativeAI(model="models/gemini-2.5-flash", temperature=0.3)
+llm = ChatGoogleGenerativeAI(
+    model="models/gemini-2.5-flash",
+    temperature=0.3,
+    convert_system_message_to_human=True
+)
 
 # --- Output Parser ---
 parser = PydanticOutputParser(pydantic_object=SupportOutput)
 
 # --- Prompt Template ---
-
 prompt = ChatPromptTemplate.from_messages([
     ("system", """
 You are a professional, empathetic, and knowledgeable **Insurance Support Assistant**.
@@ -34,15 +38,11 @@ Respond **only** in the following JSON structure:
 {format_instructions}
 """),
     ("placeholder", "{chat_history}"),
-    ("human", "{query}"),
-    ("placeholder", "{agent_scratchpad}")
+    ("human", "{query}")
 ]).partial(format_instructions=parser.get_format_instructions())
 
-
-
-# --- Create Agent and Executor ---
-agent = create_tool_calling_agent(llm=llm, prompt=prompt, tools=tools)
-executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+# --- LLM Chain (Gemini-compatible) ---
+chain = LLMChain(llm=llm, prompt=prompt)
 
 # --- CLI Chat Loop ---
 chat_history = []
@@ -61,13 +61,16 @@ while True:
 
         chat_history.append(HumanMessage(content=user_input))
 
-        result = executor.invoke({"query": user_input, "chat_history": chat_history})
+        result = chain.invoke({
+            "query": user_input,
+            "chat_history": chat_history
+        })
 
         try:
-            structured = parser.parse(result["output"])
+            structured = parser.parse(result["text"])
         except Exception:
             print("⚠️ Could not parse structured output. Raw response below:")
-            print(result["output"])
+            print(result["text"])
             continue
 
         print("\nAgent:", structured.answer)
