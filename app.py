@@ -17,7 +17,11 @@ from schema import SupportOutput
 load_dotenv()
 
 # --- LLM & Parser ---
-llm = ChatGoogleGenerativeAI(model="models/gemini-2.5-flash", temperature=0.3)
+llm = ChatGoogleGenerativeAI(
+    model="models/gemini-2.5-flash",
+    temperature=0.3,
+    convert_system_message_to_human=True
+)
 parser = PydanticOutputParser(pydantic_object=SupportOutput)
 
 # --- Prompt ---
